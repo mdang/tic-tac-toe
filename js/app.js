@@ -1,6 +1,7 @@
 console.log('app.js loaded');
 
 (function(window) {
+  const document = window.document;
   const gameTypeSelector = document.getElementById('game-type');
 
   // https://stackoverflow.com/a/17373688
