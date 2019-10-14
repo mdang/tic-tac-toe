@@ -27,7 +27,7 @@ console.log('app.js loaded');
     board.append(box);
   }
 
-  const resetGameBoard = () => {
+  const reset = () => {
     const board = document.querySelector('.board');
 
     while (board.hasChildNodes()) {
@@ -36,7 +36,7 @@ console.log('app.js loaded');
   }
 
   const buildGameBoard = numRows => {
-    resetGameBoard();
+    reset();
     
     const totalBoxes = numRows * numRows;
     const board = document.querySelector('.board');
@@ -59,6 +59,12 @@ console.log('app.js loaded');
         document.getElementById('row-num-container').setAttribute('style', 'display: none');
         buildGameBoard(3);
     }
+  });
+
+  document.getElementById('form-options').addEventListener('submit', e => {
+    e.preventDefault();
+
+    buildGameBoard(document.getElementById('row-num').value);
   });
 
   // Initialize the game
