@@ -18,13 +18,13 @@ console.log('app.js loaded');
     return '#' + randomChannel(brightness) + randomChannel(brightness) + randomChannel(brightness);
   }
 
-  const createBox = (id, numRows) => {
+  const createBox = (id, numRows, brightnessLevel=100) => {
     const board = document.querySelector('.board');
     const box = document.createElement('div');
     
     box.setAttribute('id', id);
     box.setAttribute('class', 'box');
-    box.setAttribute('style', `background: ${ randomColor(100) }; width: calc((100% - (8 * ${ numRows }px)) / ${ numRows }); height: calc((100% - (8 * ${ numRows }px)) / ${ numRows })`);
+    box.setAttribute('style', `background: ${ randomColor(brightnessLevel) }; width: calc((100% - (8 * ${ numRows }px)) / ${ numRows }); height: calc((100% - (8 * ${ numRows }px)) / ${ numRows })`);
 
     board.append(box);
   }
