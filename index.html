@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Tic Tac Toe</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <link rel="stylesheet" href="./css/global.css">
+</head>
+<body>
+  <div class="wrapper">
+    <aside>
+      <h1>Tic Tac Toe</h1>
+      <form name="form-options" id="form-options">
+        <div>
+          <select name="game-type" id="game-type">
+            <option value="default" selected="selected">Default</option>
+            <option value="random">Random Player</option>
+            <option value="n-in-a-row">n-in-a-row</option>
+          </select>
+        </div>
+        <div>
+          <input type="text" id="row-num" name="row-num" value="3" disabled="disabled"> rows
+        </div>
+      </form>
+    </aside>
+    <main></main>
+  </div>
+  <script src="./js/app.js"></script>
+</body>
+</html>
