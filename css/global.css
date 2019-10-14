@@ -35,6 +35,10 @@ form div {
   width: 30px;
 }
 
+#row-num-container {
+  display: none;
+}
+
 .board {
   display: flex;
   justify-content: space-between;
