@@ -27,8 +27,16 @@ console.log('app.js loaded');
     board.append(box);
   }
 
+  const resetGameBoard = () => {
+    const board = document.querySelector('.board');
+
+    while (board.hasChildNodes()) {
+      board.removeChild(board.lastChild);
+    }
+  }
+
   const buildGameBoard = numRows => {
-    // TODO: Clear game board 
+    resetGameBoard();
     
     const totalBoxes = numRows * numRows;
     const board = document.querySelector('.board');
