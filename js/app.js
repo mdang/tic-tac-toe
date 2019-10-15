@@ -22,10 +22,18 @@ import constants from './constants.js';
     const box = document.createElement('div');
     
     box.setAttribute('id', id);
-    box.setAttribute('class', constants.BOX_CLASS);
+    box.setAttribute('class', constants.SELECTOR_BOX.slice(1));
     box.setAttribute('style', `background: ${ randomColor(brightnessLevel) }; width: calc((100% - (8 * ${ numRows }px)) / ${ numRows }); height: calc((100% - (8 * ${ numRows }px)) / ${ numRows })`);
 
     board.append(box);
+  }
+
+  const hideRowNum = () => {
+    rowNumContainer.style.display = 'none';
+  }
+
+  const showRowNum = () => {
+    rowNumContainer.style.display = 'block';
   }
 
   const reset = () => {
@@ -50,13 +58,14 @@ import constants from './constants.js';
   
       switch (gameType) {
         case constants.GAME_TYPE_N_IN_A_ROW:
-          rowNumContainer.style.display = 'block';
+          showRowNum();
           buildGameBoard(rowNumInput.value);
           
           break;
         case constants.GAME_TYPE_RANDOM:
+        case constants.GAME_TYPE_DEFAULT:
         default:
-          rowNumContainer.style.display = 'none';
+          hideRowNum();
           buildGameBoard(constants.DEFAULT_ROW_NUM);
       }
     });
