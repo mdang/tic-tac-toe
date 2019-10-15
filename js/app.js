@@ -116,12 +116,16 @@ import constants from './constants.js';
     }
   }
 
-  const addEventHandlers = () => {
+  const attachEventHandlers = () => {
     gameTypeSelect.addEventListener('change', handleGameChange);
     formOptions.addEventListener('submit', handleSubmit);
   }
 
-  // Initialize the game
-  addEventHandlers();
-  buildGameBoard(constants.DEFAULT_ROW_NUM);
+  const init = () => {
+    attachEventHandlers();
+    buildGameBoard(constants.DEFAULT_ROW_NUM);
+  }
+
+  // Kick things off
+  init();
 }
