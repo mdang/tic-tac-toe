@@ -9,21 +9,23 @@ import constants from './constants.js';
   const board = document.querySelector(constants.SELECTOR_BOARD);
   const nextPlayerName = document.querySelector(constants.SELECTOR_NEXT_NAME);
   const nextPlayerMarker = document.querySelector(constants.SELECTOR_NEXT_MARKER);
-  const players = {};
+
   const results = {};
-  
-  players[constants.PLAYER_1] = {
-    name: 'Player 1',
-    marker: 'X',
-    score: 0
-  }
-  players[constants.PLAYER_2] = {
-    name: 'Player 2',
-    marker: 'O',
-    score: 0
-  }
+  const players = {
+    [constants.PLAYER_1]: {
+      name: 'Player 1',
+      marker: 'X',
+      score: 0
+    },
+    [constants.PLAYER_2]: {
+      name: 'Player 2',
+      marker: 'O',
+      score: 0
+    }
+  };
 
   let currentTurn = constants.PLAYER_1;
+  let totalGamesPlayed = 0;
   let totalTurns = 0;
 
   const getRowNum = () => {
@@ -66,12 +68,12 @@ import constants from './constants.js';
   }
 
   const isDraw = () => {
-    // @TODO: Make this smarter, calculate when there isn't a way for someone to win
+    // @TODO: Make this smarter, calculate when there isn't a way for someone to win even with plays left
     return Object.keys(results).length === (getRowNum() * getRowNum());
   }
 
   const isWinner = () => {
-    // Can't be a winner if there haven't even been enough turns 
+    // Can't be a winner if there hasn't been enough turns 
     if (totalTurns < getRowNum()) {
       return false;
     }
@@ -117,8 +119,10 @@ import constants from './constants.js';
 
     if (isWinner()) {
       console.log('we have a winner!');
+      totalGamesPlayed++;
     } else if (isDraw()) {
       console.log('we in a draw');
+      totalGamesPlayed++;
     } else {
       changePlayers();
     }
@@ -171,6 +175,6 @@ import constants from './constants.js';
     buildGameBoard(constants.DEFAULT_ROW_NUM);
   }
 
-  // Kick things off
+  // Get the party started
   init();
 }
