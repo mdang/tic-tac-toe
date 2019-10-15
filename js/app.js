@@ -53,14 +53,18 @@ import constants from './constants.js';
     const out = [];
 
     for (let i = 1; i <= (getRowNum() * getRowNum()); i += getRowNum()) {
-      // console.log('i', i);
       let row = [];
       for (let j = i; j < (i + getRowNum()); j++) {
-        // console.log('j', j);
         row.push(results[j] ? results[j] : null);
       }
 
       out.push(row);
+    }
+
+    if (completed) {
+      return out.filter(row => {
+        return !row.includes(null);
+      })
     }
 
     return out;
@@ -68,8 +72,9 @@ import constants from './constants.js';
 
   const checkWinnerRows = () => {
     const rows = getRowsPlayed();
-    console.log('rows', rows);
+    // console.log('rows', rows);
 
+    
 
     return false;
   }
