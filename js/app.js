@@ -46,12 +46,10 @@ import constants from './constants.js';
   }
 
   const handleGameChange = e => {
-    const gameType = getGameType();
-
-    switch (gameType) {
+    switch (getGameType()) {
       case constants.GAME_TYPE_N_IN_A_ROW:
         showRowNum();
-        buildGameBoard(rowNumInput.value);
+        buildGameBoard(getRowNum());
         
         break;
       case constants.GAME_TYPE_RANDOM:
