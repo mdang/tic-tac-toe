@@ -1,20 +1,17 @@
 console.log('app.js loaded');
 
-(function(window) {
-  const document = window.document;
+import { randomColor } from './utilities.js';
+
+((window, document) => {
   const gameTypeSelector = document.getElementById('game-type');
+  const formOptions = document.getElementById('form-options');
 
-  // https://stackoverflow.com/a/17373688
-  // Value from 0 - 255 for brightness level
-  const randomColor = brightness => {
-    const randomChannel = brightness => {
-      let r = 255 - brightness;
-      let n = 0|((Math.random() * r) + brightness);
-      let s = n.toString(16);
-      return (s.length === 1) ? '0' + s : s;
-    }
+  const getRowNum = () => {
+    return document.getElementById('row-num').value;
+  }
 
-    return '#' + randomChannel(brightness) + randomChannel(brightness) + randomChannel(brightness);
+  const getGameType = () => {
+    return gameTypeSelector.options[gameTypeSelector.selectedIndex].value;
   }
 
   const createBox = (id, numRows, brightnessLevel=100) => {
@@ -48,12 +45,13 @@ console.log('app.js loaded');
   }
 
   gameTypeSelector.addEventListener('change', () => {
-    const gameType = gameTypeSelector.options[gameTypeSelector.selectedIndex].value;
+    const gameType = getGameType();
 
     switch (gameType) {
       case 'n-in-a-row':
         document.getElementById('row-num-container').setAttribute('style', 'display: block');
         buildGameBoard(document.getElementById('row-num').value);
+        
         break;
       case 'random':
       default: 
@@ -62,12 +60,12 @@ console.log('app.js loaded');
     }
   });
 
-  document.getElementById('form-options').addEventListener('submit', e => {
+  formOptions.addEventListener('submit', e => {
     e.preventDefault();
 
-    buildGameBoard(document.getElementById('row-num').value);
+    buildGameBoard(getRowNum());
   });
 
   // Initialize the game
-  buildGameBoard(document.getElementById('row-num').value);
-})(window);
+  buildGameBoard(getRowNum());
+})(window, document);
