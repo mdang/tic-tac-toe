@@ -1,5 +1,3 @@
-console.log('constants.js loaded');
-
 export default  {
   SELECTOR_GAME_TYPE: '#game-type',
   SELECTOR_FORM_OPTIONS: '#form-options',

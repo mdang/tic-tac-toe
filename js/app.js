@@ -1,5 +1,3 @@
-console.log('app.js loaded');
-
 import { randomColor } from './utilities.js';
 import constants from './constants.js';
 
@@ -12,6 +10,7 @@ import constants from './constants.js';
   const nextPlayerName = document.querySelector(constants.SELECTOR_NEXT_NAME);
   const nextPlayerMarker = document.querySelector(constants.SELECTOR_NEXT_MARKER);
   const players = {};
+  const results = {};
   
   players[constants.PLAYER_1] = {
     name: 'Player 1',
@@ -25,16 +24,19 @@ import constants from './constants.js';
   }
 
   let currentTurn = constants.PLAYER_1;
+  let totalTurns = 0;
 
   const getRowNum = () => {
-    return rowNumInput.value;
+    return getGameType() === constants.GAME_TYPE_N_IN_A_ROW ? 
+      rowNumInput.value : 
+      constants.DEFAULT_ROW_NUM;
   }
 
   const getGameType = () => {
     return gameTypeSelect.options[gameTypeSelect.selectedIndex].value;
   }
 
-  const changeTurn = () => {
+  const changePlayers = () => {
     if (getGameType() === constants.GAME_TYPE_RANDOM) {
       alert('Not implemented');
     } else {
@@ -43,6 +45,38 @@ import constants from './constants.js';
 
     nextPlayerName.innerText = players[currentTurn].name;
     nextPlayerMarker.innerText = players[currentTurn].marker;
+  }
+
+  const checkWinnerRows = () => {
+
+
+    return false;
+  }
+
+  const checkWinnerColumns = () => {
+
+
+    return false;
+  }
+
+  const checkWinnerDiagonals = () => {
+
+
+    return false;
+  }
+
+  const isDraw = () => {
+    // @TODO: Make this smarter, calculate when there isn't a way for someone to win
+    return Object.keys(results).length === (getRowNum() * getRowNum());
+  }
+
+  const isWinner = () => {
+    // Can't be a winner if there haven't even been enough turns 
+    if (totalTurns < getRowNum()) {
+      return false;
+    }
+
+    return (checkWinnerRows() || checkWinnerColumns() || checkWinnerDiagonals());
   }
 
   const handleGameChange = e => {
@@ -72,11 +106,22 @@ import constants from './constants.js';
       return;
     }
 
-    box.innerText = (currentTurn === constants.PLAYER_1) ? 
+    const marker = (currentTurn === constants.PLAYER_1) ? 
       players[constants.PLAYER_1].marker : 
       players[constants.PLAYER_2].marker
 
-    changeTurn();
+    totalTurns++;
+
+    box.innerText = marker;
+    results[box.getAttribute('id')] = marker;
+
+    if (isWinner()) {
+      console.log('we have a winner!');
+    } else if (isDraw()) {
+      console.log('we in a draw');
+    } else {
+      changePlayers();
+    }
   }
 
   const createBox = (id, numRows, brightnessLevel=100) => {
@@ -116,13 +161,13 @@ import constants from './constants.js';
     }
   }
 
-  const attachEventHandlers = () => {
+  const registerEventHandlers = () => {
     gameTypeSelect.addEventListener('change', handleGameChange);
     formOptions.addEventListener('submit', handleSubmit);
   }
 
   const init = () => {
-    attachEventHandlers();
+    registerEventHandlers();
     buildGameBoard(constants.DEFAULT_ROW_NUM);
   }
 
