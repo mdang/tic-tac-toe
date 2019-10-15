@@ -70,19 +70,65 @@ import constants from './constants.js';
     return out;
   }
 
+  const getColumnsPlayed = (completed=true) => {
+    const out = [];
+
+    for (let i = 1; i <= getRowNum(); i++) {
+      let col = [];
+      
+      for (let j = i; j <= (getRowNum() * getRowNum()); j += getRowNum()) {
+        // console.log('j', j, results[j]);
+        col.push(results[j] ? results[j] : null);
+      }
+
+      out.push(col);
+    }
+
+    // console.log('cols', out);
+
+    if (completed) {
+      return out.filter(col => {
+        return !col.includes(null);
+      })
+    }
+
+    return out;
+  }
+
   const checkWinnerRows = () => {
     const rows = getRowsPlayed();
-    // console.log('rows', rows);
+    const winningRow = rows.filter(row => {
+      let winner = true;
 
-    
+      for (let i = 0; i < row.length - 1; i++) {
+        // console.log('checking', row[i], row[i + 1]);
+        if (row[i] !== row[i + 1]) {
+          winner = false;
+        }
+      }
 
-    return false;
+      return winner;
+    });
+
+    return winningRow;
   }
 
   const checkWinnerColumns = () => {
+    const columns = getColumnsPlayed();
+    const winningColumn = columns.filter(col => {
+      let winner = true;
 
+      for (let i = 0; i < col.length - 1; i++) {
+        console.log('checking', col[i], col[i + 1]);
+        if (col[i] !== col[i + 1]) {
+          winner = false;
+        }
+      }
 
-    return false;
+      return winner;
+    })
+
+    return winningColumn;
   }
 
   const checkWinnerDiagonals = () => {
@@ -102,7 +148,7 @@ import constants from './constants.js';
       return false;
     }
 
-    return (checkWinnerRows() || checkWinnerColumns() || checkWinnerDiagonals());
+    return (checkWinnerRows().length || checkWinnerColumns().length || checkWinnerDiagonals());
   }
 
   const handleGameChange = e => {
