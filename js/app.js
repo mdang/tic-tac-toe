@@ -38,7 +38,7 @@ import constants from './constants.js';
     return gameTypeSelect.options[gameTypeSelect.selectedIndex].value;
   }
 
-  const changePlayers = () => {
+  const swapPlayers = () => {
     if (getGameType() === constants.GAME_TYPE_RANDOM) {
       alert('Not implemented');
     } else {
@@ -49,7 +49,26 @@ import constants from './constants.js';
     nextPlayerMarker.innerText = players[currentTurn].marker;
   }
 
+  const getRowsPlayed = (completed=true) => {
+    const out = [];
+
+    for (let i = 1; i <= (getRowNum() * getRowNum()); i += getRowNum()) {
+      // console.log('i', i);
+      let row = [];
+      for (let j = i; j < (i + getRowNum()); j++) {
+        // console.log('j', j);
+        row.push(results[j] ? results[j] : null);
+      }
+
+      out.push(row);
+    }
+
+    return out;
+  }
+
   const checkWinnerRows = () => {
+    const rows = getRowsPlayed();
+    console.log('rows', rows);
 
 
     return false;
@@ -124,7 +143,7 @@ import constants from './constants.js';
       console.log('we in a draw');
       totalGamesPlayed++;
     } else {
-      changePlayers();
+      swapPlayers();
     }
   }
 
