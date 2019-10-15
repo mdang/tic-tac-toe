@@ -23,9 +23,12 @@ import constants from './constants.js';
     
     box.setAttribute('id', id);
     box.setAttribute('class', constants.SELECTOR_BOX.slice(1));
-    box.setAttribute('style', `background: ${ randomColor(brightnessLevel) }; width: calc((100% - (8 * ${ numRows }px)) / ${ numRows }); height: calc((100% - (8 * ${ numRows }px)) / ${ numRows })`);
 
-    board.append(box);
+    box.style.background = `${ randomColor(brightnessLevel) }`;
+    box.style.width = `calc((100% - (8 * ${ numRows }px)) / ${ numRows })`;
+    box.style.height = `calc((100% - (8 * ${ numRows }px)) / ${ numRows })`;
+
+    return box;
   }
 
   const hideRowNum = () => {
@@ -48,7 +51,8 @@ import constants from './constants.js';
     const totalBoxes = numRows * numRows;
 
     for (let i = 1; i <= totalBoxes; i++) {
-      createBox(i, numRows);
+      const box = createBox(i, numRows);
+      board.append(box);
     }
   }
 
