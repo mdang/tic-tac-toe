@@ -11,19 +11,20 @@ import constants from './constants.js';
   const board = document.querySelector(constants.SELECTOR_BOARD);
   const nextPlayerName = document.querySelector(constants.SELECTOR_NEXT_NAME);
   const nextPlayerMarker = document.querySelector(constants.SELECTOR_NEXT_MARKER);
-
-  let currentTurn = constants.PLAYER_1;
-  let players = {};
+  const players = {};
+  
   players[constants.PLAYER_1] = {
     name: 'Player 1',
-    score: 0,
-    marker: 'X'
+    marker: 'X',
+    score: 0
   }
   players[constants.PLAYER_2] = {
     name: 'Player 2',
-    score: 0,
-    marker: 'O'
+    marker: 'O',
+    score: 0
   }
+
+  let currentTurn = constants.PLAYER_1;
 
   const getRowNum = () => {
     return rowNumInput.value;
@@ -35,12 +36,11 @@ import constants from './constants.js';
 
   const changeTurn = () => {
     if (getGameType() === constants.GAME_TYPE_RANDOM) {
-      alert('not implemented');
+      alert('Not implemented');
     } else {
       currentTurn = (currentTurn === constants.PLAYER_1) ? constants.PLAYER_2 : constants.PLAYER_1;
     }
 
-    // Next up
     nextPlayerName.innerText = players[currentTurn].name;
     nextPlayerMarker.innerText = players[currentTurn].marker;
   }
@@ -113,11 +113,8 @@ import constants from './constants.js';
   const buildGameBoard = numRows => {
     reset();
     
-    const totalBoxes = numRows * numRows;
-
-    for (let i = 1; i <= totalBoxes; i++) {
-      const box = createBox(i, numRows);
-      board.append(box);
+    for (let i = 1; i <= (numRows * numRows); i++) {
+      board.append(createBox(i, numRows));
     }
   }
 
