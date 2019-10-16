@@ -225,9 +225,13 @@ import constants from './constants.js';
       console.log('we have a winner!');
       updateGameScore(currentTurn);
       totalGamesPlayed++;
+
+      removeBoxEventHandlers();
     } else if (isDraw()) {
       console.log('we in a draw');
       totalGamesPlayed++;
+
+      removeBoxEventHandlers();
     }
 
     swapPlayers();
@@ -263,16 +267,25 @@ import constants from './constants.js';
     rowNumContainer.style.display = 'block';
   }
 
+  const removeBoxEventHandlers = () => {
+    const children = board.childNodes;
+    const boxes = Array.from(children);
+
+    boxes.forEach(box => {
+      box.removeEventListener('click', handleBoxClick);
+    });
+  }
+
   const reset = () => {
     Object.keys(results).forEach(key => { delete results[key] });
 
+    removeBoxEventHandlers();
     while (board.hasChildNodes()) {
-      const removed = board.lastChild;
-
-      removed.removeEventListener('click', handleBoxClick);
-      board.removeChild(removed);
+      board.removeChild(board.lastChild);
     }
   }
+
+  
 
   const handleNewGame = e => {
     e.preventDefault();
