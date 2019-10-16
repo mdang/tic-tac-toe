@@ -30,7 +30,7 @@ import constants from './constants.js';
 
   const getRowNum = () => {
     return getGameType() === constants.GAME_TYPE_N_IN_A_ROW ? 
-      rowNumInput.value : 
+      parseInt(rowNumInput.value, 10) : 
       constants.DEFAULT_ROW_NUM;
   }
 
@@ -96,16 +96,15 @@ import constants from './constants.js';
     const out = [];
     const diag1 = [];
     const diag2 = [];
-    const rowNum = parseInt(getRowNum(), 10);
     
-    for (let i = 1; i <= (rowNum * rowNum + 1); i += (rowNum + 1)) {
+    for (let i = 1; i <= (getRowNum() * getRowNum() + 1); i += (getRowNum() + 1)) {
       console.log('i-1', i);
       diag1.push(results[i] ? results[i] : null);
     }
 
     out.push(diag1);
     
-    for (let j = (rowNum * rowNum) - rowNum + 1; j >= rowNum; j -= (rowNum - 1)) {
+    for (let j = (getRowNum() * getRowNum()) - getRowNum() + 1; j >= getRowNum(); j -= (getRowNum() - 1)) {
       console.log('j-2', j);
       diag2.push(results[j] ? results[j] : null);
     }
@@ -136,10 +135,14 @@ import constants from './constants.js';
   }
 
   const isWellPlayed = (boxes) => {
+    console.log('boxes', boxes);
     const winningBoxes = boxes.filter(box => {
       let winner = true;
+      console.log('box', box);
 
       for (let i = 0; i < box.length - 1; i++) {
+        console.log('i', i, 'box.length - 1', box.length - 1)
+        console.log('box[i]', box[i], 'box[i + 1]', box[i + 1]);
         if (box[i] !== box[i + 1]) {
           winner = false;
         }
