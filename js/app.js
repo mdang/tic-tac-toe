@@ -77,14 +77,11 @@ import constants from './constants.js';
       let col = [];
       
       for (let j = i; j <= (getRowNum() * getRowNum()); j += getRowNum()) {
-        // console.log('j', j, results[j]);
         col.push(results[j] ? results[j] : null);
       }
 
       out.push(col);
     }
-
-    // console.log('cols', out);
 
     if (completed) {
       return out.filter(col => {
@@ -95,32 +92,55 @@ import constants from './constants.js';
     return out;
   }
 
+  const getDiagonalsPlayed = (completed=true) => {
+    const out = [];
+    const diag1 = [];
+    const diag2 = [];
+    const rowNum = parseInt(getRowNum(), 10);
+    
+    for (let i = 1; i <= (rowNum * rowNum + 1); i += (rowNum + 1)) {
+      // console.log('i-1', i);
+      diag1.push(results[i] ? results[i] : null);
+    }
+
+    out.push(diag1);
+    
+    for (let j = (rowNum * rowNum) - rowNum + 1; j >= rowNum; j -= (rowNum - 1)) {
+      // console.log('j-2', j);
+      diag2.push(results[j] ? results[j] : null);
+    }
+
+    out.push(diag2);
+
+    // console.log('out', out);
+
+    if (completed) {
+      return out.filter(diag => {
+        return !diag.includes(null);
+      })
+    }
+
+    return out;
+  }
+
   const checkWinnerRows = () => {
-    const rows = getRowsPlayed();
-    const winningRow = rows.filter(row => {
-      let winner = true;
-
-      for (let i = 0; i < row.length - 1; i++) {
-        // console.log('checking', row[i], row[i + 1]);
-        if (row[i] !== row[i + 1]) {
-          winner = false;
-        }
-      }
-
-      return winner;
-    });
-
-    return winningRow;
+    return isWellPlayed(getRowsPlayed());
   }
 
   const checkWinnerColumns = () => {
-    const columns = getColumnsPlayed();
-    const winningColumn = columns.filter(col => {
+    return isWellPlayed(getColumnsPlayed());
+  }
+
+  const checkWinnerDiagonals = () => {
+    return isWellPlayed(getDiagonalsPlayed());
+  }
+
+  const isWellPlayed = (boxes) => {
+    const winningBoxes = boxes.filter(box => {
       let winner = true;
 
-      for (let i = 0; i < col.length - 1; i++) {
-        console.log('checking', col[i], col[i + 1]);
-        if (col[i] !== col[i + 1]) {
+      for (let i = 0; i < box.length - 1; i++) {
+        if (box[i] !== box[i + 1]) {
           winner = false;
         }
       }
@@ -128,13 +148,7 @@ import constants from './constants.js';
       return winner;
     })
 
-    return winningColumn;
-  }
-
-  const checkWinnerDiagonals = () => {
-
-
-    return false;
+    return winningBoxes;
   }
 
   const isDraw = () => {
@@ -148,7 +162,7 @@ import constants from './constants.js';
       return false;
     }
 
-    return (checkWinnerRows().length || checkWinnerColumns().length || checkWinnerDiagonals());
+    return (checkWinnerRows().length || checkWinnerColumns().length || checkWinnerDiagonals().length);
   }
 
   const handleGameChange = e => {
