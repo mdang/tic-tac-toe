@@ -99,20 +99,20 @@ import constants from './constants.js';
     const rowNum = parseInt(getRowNum(), 10);
     
     for (let i = 1; i <= (rowNum * rowNum + 1); i += (rowNum + 1)) {
-      // console.log('i-1', i);
+      console.log('i-1', i);
       diag1.push(results[i] ? results[i] : null);
     }
 
     out.push(diag1);
     
     for (let j = (rowNum * rowNum) - rowNum + 1; j >= rowNum; j -= (rowNum - 1)) {
-      // console.log('j-2', j);
+      console.log('j-2', j);
       diag2.push(results[j] ? results[j] : null);
     }
 
     out.push(diag2);
 
-    // console.log('out', out);
+    console.log('out', out);
 
     if (completed) {
       return out.filter(diag => {
@@ -161,6 +161,10 @@ import constants from './constants.js';
     if (totalTurns < getRowNum()) {
       return false;
     }
+
+    console.log('checkWinnerRows()', checkWinnerRows());
+    console.log('checkWinnerColumns()', checkWinnerColumns());
+    console.log('checkWinnerDiagonals()', checkWinnerDiagonals());
 
     return (checkWinnerRows().length || checkWinnerColumns().length || checkWinnerDiagonals().length);
   }
