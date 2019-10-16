@@ -15,5 +15,8 @@ export default  {
   DEFAULT_ROW_NUM: 3,
   BOARD_PADDING: '8',
   PLAYER_1: 'p1',
-  PLAYER_2: 'p2'
+  PLAYER_2: 'p2',
+  CONTEXT_ROW: 'row',
+  CONTEXT_COLUMN: 'column',
+  CONTEXT_DIAGONAL: 'diagonal'
 };

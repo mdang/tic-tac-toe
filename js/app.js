@@ -98,20 +98,14 @@ import constants from './constants.js';
     const diag2 = [];
     
     for (let i = 1; i <= (getRowNum() * getRowNum() + 1); i += (getRowNum() + 1)) {
-      console.log('i-1', i);
       diag1.push(results[i] ? results[i] : null);
     }
-
     out.push(diag1);
     
     for (let j = (getRowNum() * getRowNum()) - getRowNum() + 1; j >= getRowNum(); j -= (getRowNum() - 1)) {
-      console.log('j-2', j);
       diag2.push(results[j] ? results[j] : null);
     }
-
     out.push(diag2);
-
-    console.log('out', out);
 
     if (completed) {
       return out.filter(diag => {
@@ -123,35 +117,45 @@ import constants from './constants.js';
   }
 
   const checkWinnerRows = () => {
-    return isWellPlayed(getRowsPlayed());
+    return isWellPlayed(getRowsPlayed(false), constants.CONTEXT_ROW);
   }
 
   const checkWinnerColumns = () => {
-    return isWellPlayed(getColumnsPlayed());
+    return isWellPlayed(getColumnsPlayed(false), constants.CONTEXT_COLUMN);
   }
 
   const checkWinnerDiagonals = () => {
-    return isWellPlayed(getDiagonalsPlayed());
+    return isWellPlayed(getDiagonalsPlayed(false), constants.CONTEXT_DIAGONAL);
   }
 
-  const isWellPlayed = (boxes) => {
-    console.log('boxes', boxes);
+  const isWellPlayed = (boxes, context) => {
+    let j = 0;
+    let position = null;
+
     const winningBoxes = boxes.filter(box => {
       let winner = true;
-      console.log('box', box);
 
       for (let i = 0; i < box.length - 1; i++) {
-        console.log('i', i, 'box.length - 1', box.length - 1)
-        console.log('box[i]', box[i], 'box[i + 1]', box[i + 1]);
+        if (!box[i]) {
+          j++;
+          return false;
+        }
+        
         if (box[i] !== box[i + 1]) {
           winner = false;
         }
       }
 
+      winner ? position = j : j++;
+
       return winner;
     })
 
-    return winningBoxes;
+    return {
+      context: context,
+      position: position,
+      winningBoxes: winningBoxes
+    };
   }
 
   const isDraw = () => {
@@ -165,11 +169,11 @@ import constants from './constants.js';
       return false;
     }
 
-    console.log('checkWinnerRows()', checkWinnerRows());
-    console.log('checkWinnerColumns()', checkWinnerColumns());
-    console.log('checkWinnerDiagonals()', checkWinnerDiagonals());
+    // console.log('checkWinnerRows()', checkWinnerRows());
+    // console.log('checkWinnerColumns()', checkWinnerColumns());
+    // console.log('checkWinnerDiagonals()', checkWinnerDiagonals());
 
-    return (checkWinnerRows().length || checkWinnerColumns().length || checkWinnerDiagonals().length);
+    return (checkWinnerRows().winningBoxes.length || checkWinnerColumns().winningBoxes.length || checkWinnerDiagonals().winningBoxes.length);
   }
 
   const handleGameChange = e => {
