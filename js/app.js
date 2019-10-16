@@ -11,6 +11,8 @@ import constants from './constants.js';
   const nextPlayerMarker = document.querySelector(constants.SELECTOR_NEXT_MARKER);
   const resetGame = document.querySelector(constants.SELECTOR_RESET_GAME);
   const resetAll = document.querySelector(constants.SELECTOR_RESET_ALL);
+  const p1Score = document.querySelector(constants.SELECTOR_PLAYER_1_SCORE);
+  const p2Score = document.querySelector(constants.SELECTOR_PLAYER_2_SCORE);
 
   const results = {};
   const players = {
@@ -142,7 +144,7 @@ import constants from './constants.js';
       let winner = true;
 
       for (let i = 0; i < box.length - 1; i++) {
-        console.log('i', i, 'j', j, 'box[i]', box[i]);
+        // console.log('i', i, 'j', j, 'box[i]', box[i]);
         if (!box[i]) {
           j++;
           return false;
@@ -221,13 +223,22 @@ import constants from './constants.js';
 
     if (isWinner()) {
       console.log('we have a winner!');
+      updateGameScore(currentTurn);
       totalGamesPlayed++;
     } else if (isDraw()) {
       console.log('we in a draw');
       totalGamesPlayed++;
-    } else {
-      swapPlayers();
     }
+
+    swapPlayers();
+  }
+
+  const updateGameScore = currentTurn => {
+    const score = (currentTurn === constants.PLAYER_1) ? p1Score : p2Score;
+    console.log('currentTurn', currentTurn, 'score', players[currentTurn].score);
+    
+    players[currentTurn].score++;
+    score.innerText = players[currentTurn].score;
   }
 
   const createBox = (id, numRows, brightnessLevel=100) => {
