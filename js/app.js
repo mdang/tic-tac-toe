@@ -235,7 +235,7 @@ import constants from './constants.js';
 
   const updateGameScore = currentTurn => {
     const score = (currentTurn === constants.PLAYER_1) ? p1Score : p2Score;
-    console.log('currentTurn', currentTurn, 'score', players[currentTurn].score);
+    // console.log('currentTurn', currentTurn, 'score', players[currentTurn].score);
     
     players[currentTurn].score++;
     score.innerText = players[currentTurn].score;
@@ -288,8 +288,12 @@ import constants from './constants.js';
     currentTurn = constants.PLAYER_1;
     totalGamesPlayed = 0;
     totalTurns = 0;
-
+    players[constants.PLAYER_1].score = 0;
+    players[constants.PLAYER_2].score = 0;
     gameTypeSelect.options.selectedIndex = 0;
+    p1Score.innerText = 0;
+    p2Score.innerText = 0;
+    
     swapPlayers(true);
     buildGameBoard(constants.DEFAULT_ROW_NUM);
   }
