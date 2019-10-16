@@ -9,6 +9,8 @@ import constants from './constants.js';
   const board = document.querySelector(constants.SELECTOR_BOARD);
   const nextPlayerName = document.querySelector(constants.SELECTOR_NEXT_NAME);
   const nextPlayerMarker = document.querySelector(constants.SELECTOR_NEXT_MARKER);
+  const resetGame = document.querySelector(constants.SELECTOR_RESET_GAME);
+  const resetAll = document.querySelector(constants.SELECTOR_RESET_ALL);
 
   const results = {};
   const players = {
@@ -38,11 +40,15 @@ import constants from './constants.js';
     return gameTypeSelect.options[gameTypeSelect.selectedIndex].value;
   }
 
-  const swapPlayers = () => {
-    if (getGameType() === constants.GAME_TYPE_RANDOM) {
-      alert('Not implemented');
+  const swapPlayers = (reset=false) => {
+    if (reset) {
+      currentTurn = constants.PLAYER_1;
     } else {
-      currentTurn = (currentTurn === constants.PLAYER_1) ? constants.PLAYER_2 : constants.PLAYER_1;
+      if (getGameType() === constants.GAME_TYPE_RANDOM) {
+        alert('Not implemented');
+      } else {
+        currentTurn = (currentTurn === constants.PLAYER_1) ? constants.PLAYER_2 : constants.PLAYER_1;
+      }
     }
 
     nextPlayerName.innerText = players[currentTurn].name;
@@ -136,6 +142,7 @@ import constants from './constants.js';
       let winner = true;
 
       for (let i = 0; i < box.length - 1; i++) {
+        console.log('i', i, 'j', j, 'box[i]', box[i]);
         if (!box[i]) {
           j++;
           return false;
@@ -205,7 +212,7 @@ import constants from './constants.js';
 
     const marker = (currentTurn === constants.PLAYER_1) ? 
       players[constants.PLAYER_1].marker : 
-      players[constants.PLAYER_2].marker
+      players[constants.PLAYER_2].marker;
 
     totalTurns++;
 
@@ -247,9 +254,33 @@ import constants from './constants.js';
   }
 
   const reset = () => {
+    Object.keys(results).forEach(key => { delete results[key] });
+
     while (board.hasChildNodes()) {
-      board.removeChild(board.lastChild);
+      const removed = board.lastChild;
+
+      removed.removeEventListener('click', handleBoxClick);
+      board.removeChild(removed);
     }
+  }
+
+  const handleResetGame = e => {
+    e.preventDefault();
+
+    swapPlayers(true);
+    buildGameBoard(getRowNum());
+  }
+
+  const handleResetAll = e => {
+    e.preventDefault();
+
+    currentTurn = constants.PLAYER_1;
+    totalGamesPlayed = 0;
+    totalTurns = 0;
+
+    gameTypeSelect.options.selectedIndex = 0;
+    swapPlayers(true);
+    buildGameBoard(constants.DEFAULT_ROW_NUM);
   }
 
   const buildGameBoard = numRows => {
@@ -263,6 +294,8 @@ import constants from './constants.js';
   const registerEventHandlers = () => {
     gameTypeSelect.addEventListener('change', handleGameChange);
     formOptions.addEventListener('submit', handleSubmit);
+    resetGame.addEventListener('click', handleResetGame);
+    resetAll.addEventListener('click', handleResetAll);
   }
 
   const init = () => {
