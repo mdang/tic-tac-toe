@@ -9,7 +9,7 @@ import constants from './constants.js';
   const board = document.querySelector(constants.SELECTOR_BOARD);
   const nextPlayerName = document.querySelector(constants.SELECTOR_NEXT_NAME);
   const nextPlayerMarker = document.querySelector(constants.SELECTOR_NEXT_MARKER);
-  const resetGame = document.querySelector(constants.SELECTOR_RESET_GAME);
+  const newGame = document.querySelector(constants.SELECTOR_NEW_GAME);
   const resetAll = document.querySelector(constants.SELECTOR_RESET_ALL);
   const p1Score = document.querySelector(constants.SELECTOR_PLAYER_1_SCORE);
   const p2Score = document.querySelector(constants.SELECTOR_PLAYER_2_SCORE);
@@ -235,7 +235,6 @@ import constants from './constants.js';
 
   const updateGameScore = currentTurn => {
     const score = (currentTurn === constants.PLAYER_1) ? p1Score : p2Score;
-    // console.log('currentTurn', currentTurn, 'score', players[currentTurn].score);
     
     players[currentTurn].score++;
     score.innerText = players[currentTurn].score;
@@ -275,7 +274,7 @@ import constants from './constants.js';
     }
   }
 
-  const handleResetGame = e => {
+  const handleNewGame = e => {
     e.preventDefault();
 
     swapPlayers(true);
@@ -293,7 +292,7 @@ import constants from './constants.js';
     gameTypeSelect.options.selectedIndex = 0;
     p1Score.innerText = 0;
     p2Score.innerText = 0;
-    
+
     swapPlayers(true);
     buildGameBoard(constants.DEFAULT_ROW_NUM);
   }
@@ -309,7 +308,7 @@ import constants from './constants.js';
   const registerEventHandlers = () => {
     gameTypeSelect.addEventListener('change', handleGameChange);
     formOptions.addEventListener('submit', handleSubmit);
-    resetGame.addEventListener('click', handleResetGame);
+    newGame.addEventListener('click', handleNewGame);
     resetAll.addEventListener('click', handleResetAll);
   }
 

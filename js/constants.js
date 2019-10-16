@@ -9,7 +9,7 @@ export default  {
   SELECTOR_PLAYER_2_SCORE: '#p2-score',
   SELECTOR_NEXT_NAME: '#p-name',
   SELECTOR_NEXT_MARKER: '#p-marker',
-  SELECTOR_RESET_GAME: '#reset-game',
+  SELECTOR_NEW_GAME: '#new-game',
   SELECTOR_RESET_ALL: '#reset-all',
   GAME_TYPE_DEFAULT: 'default',
   GAME_TYPE_RANDOM: 'random',
