@@ -202,7 +202,16 @@ import constants from './constants.js';
 
         break;
       case constants.CONTEXT_DIAGONAL:
-
+          if (winningBoxes.position === 0) {
+            for (let i = 1; i <= (getRowNum() * getRowNum() + 1); i += (getRowNum() + 1)) {
+              skip.push(i);
+            }
+          } else {
+            for (let j = (getRowNum() * getRowNum()) - getRowNum() + 1; j >= getRowNum(); j -= (getRowNum() - 1)) {
+              skip.push(j);
+            }
+          }
+          
         break;
       case constants.CONTEXT_ROW:
       default:
