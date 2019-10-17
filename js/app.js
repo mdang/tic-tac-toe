@@ -28,6 +28,7 @@ import constants from './constants.js';
     }
   };
 
+  let winningBoxes = {};
   let currentTurn = constants.PLAYER_1;
   let totalGamesPlayed = 0;
   let totalTurns = 0;
@@ -140,7 +141,7 @@ import constants from './constants.js';
     let j = 0;
     let position = null;
 
-    const winningBoxes = boxes.filter(box => {
+    const winning = boxes.filter(box => {
       let winner = true;
 
       for (let i = 0; i < box.length - 1; i++) {
@@ -160,10 +161,10 @@ import constants from './constants.js';
       return winner;
     })
 
-    return {
+    return winningBoxes = {
       context: context,
       position: position,
-      winningBoxes: winningBoxes
+      winningBoxes: winning
     };
   }
 
@@ -183,6 +184,20 @@ import constants from './constants.js';
     // console.log('checkWinnerDiagonals()', checkWinnerDiagonals());
 
     return (checkWinnerRows().winningBoxes.length || checkWinnerColumns().winningBoxes.length || checkWinnerDiagonals().winningBoxes.length);
+  }
+
+  const displayWinner = () => {
+
+  }
+
+  const displayDraw = () => {
+    const children = board.childNodes;
+    const boxes = Array.from(children);
+
+    boxes.forEach(box => {
+      box.style.background = constants.DISPLAY_LOSING_BOX_BACKGROUND;
+      box.style.color = constants.DIPSLAY_LOSING_BOX_COLOR;
+    });
   }
 
   const handleGameChange = e => {
@@ -226,12 +241,14 @@ import constants from './constants.js';
       updateGameScore(currentTurn);
       totalGamesPlayed++;
 
-      removeBoxEventHandlers();
+      removeBoxEventListeners();
+      displayWinner();
     } else if (isDraw()) {
       console.log('we in a draw');
       totalGamesPlayed++;
 
-      removeBoxEventHandlers();
+      removeBoxEventListeners();
+      displayDraw();
     }
 
     swapPlayers();
@@ -267,7 +284,7 @@ import constants from './constants.js';
     rowNumContainer.style.display = 'block';
   }
 
-  const removeBoxEventHandlers = () => {
+  const removeBoxEventListeners = () => {
     const children = board.childNodes;
     const boxes = Array.from(children);
 
@@ -278,14 +295,14 @@ import constants from './constants.js';
 
   const reset = () => {
     Object.keys(results).forEach(key => { delete results[key] });
+    Object.keys(winningBoxes).forEach(key => { delete winningBoxes[key] });
+    
+    removeBoxEventListeners();
 
-    removeBoxEventHandlers();
     while (board.hasChildNodes()) {
       board.removeChild(board.lastChild);
     }
   }
-
-  
 
   const handleNewGame = e => {
     e.preventDefault();

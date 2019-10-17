@@ -20,5 +20,7 @@ export default  {
   PLAYER_2: 'p2',
   CONTEXT_ROW: 'row',
   CONTEXT_COLUMN: 'column',
-  CONTEXT_DIAGONAL: 'diagonal'
+  CONTEXT_DIAGONAL: 'diagonal',
+  DISPLAY_LOSING_BOX_BACKGROUND: '#ccc',
+  DIPSLAY_LOSING_BOX_COLOR: '#eee'
 };
