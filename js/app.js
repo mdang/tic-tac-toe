@@ -187,7 +187,40 @@ import constants from './constants.js';
   }
 
   const displayWinner = () => {
+    const children = board.childNodes;
+    const boxes = Array.from(children);
+    const skip = [];
 
+    // Determine which ones not to dim
+    switch (winningBoxes.context) {
+      case constants.CONTEXT_COLUMN:
+        // console.log('winningBoxes.position', winningBoxes.position, 'getRowNum()', getRowNum());
+        for (let c = winningBoxes.position + 1; c <= getRowNum() * getRowNum(); c += getRowNum()) {
+          // console.log('skipping', c)
+          skip.push(c);
+        }
+
+        break;
+      case constants.CONTEXT_DIAGONAL:
+
+        break;
+      case constants.CONTEXT_ROW:
+      default:
+
+    }
+
+    console.log('skip', skip);
+
+    const filteredBoxes = boxes.filter(box => {
+      // console.log('box.id', box.id)
+      return !(skip.includes(parseInt(box.id, 10)));
+    });
+
+    console.log('filteredBoxes', filteredBoxes);
+
+    filteredBoxes.forEach(box => {
+      dimBox(box);
+    });
   }
 
   const displayDraw = () => {
@@ -195,9 +228,13 @@ import constants from './constants.js';
     const boxes = Array.from(children);
 
     boxes.forEach(box => {
-      box.style.background = constants.DISPLAY_LOSING_BOX_BACKGROUND;
-      box.style.color = constants.DIPSLAY_LOSING_BOX_COLOR;
+      dimBox(box);
     });
+  }
+
+  const dimBox = box => {
+    box.style.background = constants.DISPLAY_LOSING_BOX_BACKGROUND;
+    box.style.color = constants.DIPSLAY_LOSING_BOX_COLOR;
   }
 
   const handleGameChange = e => {
