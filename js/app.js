@@ -43,12 +43,18 @@ import constants from './constants.js';
     return gameTypeSelect.options[gameTypeSelect.selectedIndex].value;
   }
 
+  const getRandomPlayer = () => {
+    const randomPlayers = Object.keys(players);
+
+    return randomPlayers[Math.floor(Math.random() * randomPlayers.length)];
+  }
+
   const swapPlayers = (reset=false) => {
     if (reset) {
       currentTurn = constants.PLAYER_1;
     } else {
       if (getGameType() === constants.GAME_TYPE_RANDOM) {
-        alert('Not implemented');
+        currentTurn = getRandomPlayer();
       } else {
         currentTurn = (currentTurn === constants.PLAYER_1) ? constants.PLAYER_2 : constants.PLAYER_1;
       }
