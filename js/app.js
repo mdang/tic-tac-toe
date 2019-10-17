@@ -287,7 +287,6 @@ import constants from './constants.js';
     if (isWinner()) {
       console.log('we have a winner!');
       updateGameScore(currentTurn);
-      totalGamesPlayed++;
       updateTotalGames();
 
       removeBoxEventListeners();
@@ -295,7 +294,6 @@ import constants from './constants.js';
       displayWinner();
     } else if (isDraw()) {
       console.log('we in a draw');
-      totalGamesPlayed++;
       updateTotalGames();
 
       removeBoxEventListeners();
@@ -314,6 +312,7 @@ import constants from './constants.js';
   }
 
   const updateTotalGames = () => {
+    totalGamesPlayed++;
     totalGames.innerText = totalGamesPlayed;
   }
 
