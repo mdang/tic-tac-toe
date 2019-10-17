@@ -55,11 +55,9 @@ import constants from './constants.js';
     if (reset) {
       currentTurn = constants.PLAYER_1;
     } else {
-      if (getGameType() === constants.GAME_TYPE_RANDOM) {
-        currentTurn = getRandomPlayer();
-      } else {
-        currentTurn = (currentTurn === constants.PLAYER_1) ? constants.PLAYER_2 : constants.PLAYER_1;
-      }
+      currentTurn = (getGameType() === constants.GAME_TYPE_RANDOM) ? 
+        getRandomPlayer() : 
+        (currentTurn === constants.PLAYER_1) ? constants.PLAYER_2 : constants.PLAYER_1;
     }
 
     nextPlayerName.innerText = players[currentTurn].name;
