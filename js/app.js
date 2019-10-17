@@ -126,15 +126,15 @@ import constants from './constants.js';
   }
 
   const checkWinnerRows = () => {
-    return isWellPlayed(getRowsPlayed(false), constants.CONTEXT_ROW);
+    return isWellPlayed(getRowsPlayed(), constants.CONTEXT_ROW);
   }
 
   const checkWinnerColumns = () => {
-    return isWellPlayed(getColumnsPlayed(false), constants.CONTEXT_COLUMN);
+    return isWellPlayed(getColumnsPlayed(), constants.CONTEXT_COLUMN);
   }
 
   const checkWinnerDiagonals = () => {
-    return isWellPlayed(getDiagonalsPlayed(false), constants.CONTEXT_DIAGONAL);
+    return isWellPlayed(getDiagonalsPlayed(), constants.CONTEXT_DIAGONAL);
   }
 
   const isWellPlayed = (boxes, context) => {
@@ -209,7 +209,6 @@ import constants from './constants.js';
       case constants.CONTEXT_ROW:
       default:
         let start = 1;
-        let end = start + getRowNum();
 
         if (winningBoxes.position !== 0) {
           start = (winningBoxes.position * getRowNum() + 1);
