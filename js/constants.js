@@ -10,6 +10,7 @@ export default  {
   SELECTOR_NEXT_NAME: '#p-name',
   SELECTOR_NEXT_MARKER: '#p-marker',
   SELECTOR_NEW_GAME: '#new-game',
+  SELECTOR_TOTAL_GAMES: '#total-games',
   SELECTOR_RESET_ALL: '#reset-all',
   GAME_TYPE_DEFAULT: 'default',
   GAME_TYPE_RANDOM: 'random',

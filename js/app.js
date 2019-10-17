@@ -13,6 +13,7 @@ import constants from './constants.js';
   const resetAll = document.querySelector(constants.SELECTOR_RESET_ALL);
   const p1Score = document.querySelector(constants.SELECTOR_PLAYER_1_SCORE);
   const p2Score = document.querySelector(constants.SELECTOR_PLAYER_2_SCORE);
+  const totalGames = document.querySelector(constants.SELECTOR_TOTAL_GAMES);
 
   const results = {};
   const players = {
@@ -288,12 +289,14 @@ import constants from './constants.js';
       console.log('we have a winner!');
       updateGameScore(currentTurn);
       totalGamesPlayed++;
+      updateTotalGames();
 
       removeBoxEventListeners();
       displayWinner();
     } else if (isDraw()) {
       console.log('we in a draw');
       totalGamesPlayed++;
+      updateTotalGames();
 
       removeBoxEventListeners();
       displayDraw();
@@ -307,6 +310,10 @@ import constants from './constants.js';
     
     players[currentTurn].score++;
     score.innerText = players[currentTurn].score;
+  }
+
+  const updateTotalGames = () => {
+    totalGames.innerText = totalGamesPlayed;
   }
 
   const createBox = (id, numRows, brightnessLevel=100) => {
