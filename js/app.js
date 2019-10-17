@@ -58,7 +58,7 @@ import constants from './constants.js';
     nextPlayerMarker.innerText = players[currentTurn].marker;
   }
 
-  const getRowsPlayed = (completed=true) => {
+  const getRowsPlayed = (filtered=false) => {
     const out = [];
 
     for (let i = 1; i <= (getRowNum() * getRowNum()); i += getRowNum()) {
@@ -70,7 +70,7 @@ import constants from './constants.js';
       out.push(row);
     }
 
-    if (completed) {
+    if (filtered) {
       return out.filter(row => {
         return !row.includes(null);
       })
@@ -79,7 +79,7 @@ import constants from './constants.js';
     return out;
   }
 
-  const getColumnsPlayed = (completed=true) => {
+  const getColumnsPlayed = (filtered=false) => {
     const out = [];
 
     for (let i = 1; i <= getRowNum(); i++) {
@@ -92,7 +92,7 @@ import constants from './constants.js';
       out.push(col);
     }
 
-    if (completed) {
+    if (filtered) {
       return out.filter(col => {
         return !col.includes(null);
       })
@@ -101,7 +101,7 @@ import constants from './constants.js';
     return out;
   }
 
-  const getDiagonalsPlayed = (completed=true) => {
+  const getDiagonalsPlayed = (filtered=false) => {
     const out = [];
     const diag1 = [];
     const diag2 = [];
@@ -116,7 +116,7 @@ import constants from './constants.js';
     }
     out.push(diag2);
 
-    if (completed) {
+    if (filtered) {
       return out.filter(diag => {
         return !diag.includes(null);
       })
@@ -126,15 +126,15 @@ import constants from './constants.js';
   }
 
   const checkWinnerRows = () => {
-    return isWellPlayed(getRowsPlayed(), constants.CONTEXT_ROW);
+    return isWellPlayed(getRowsPlayed(false), constants.CONTEXT_ROW);
   }
 
   const checkWinnerColumns = () => {
-    return isWellPlayed(getColumnsPlayed(), constants.CONTEXT_COLUMN);
+    return isWellPlayed(getColumnsPlayed(false), constants.CONTEXT_COLUMN);
   }
 
   const checkWinnerDiagonals = () => {
-    return isWellPlayed(getDiagonalsPlayed(), constants.CONTEXT_DIAGONAL);
+    return isWellPlayed(getDiagonalsPlayed(false), constants.CONTEXT_DIAGONAL);
   }
 
   const isWellPlayed = (boxes, context) => {
