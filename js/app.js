@@ -145,7 +145,6 @@ import constants from './constants.js';
       let winner = true;
 
       for (let i = 0; i < box.length - 1; i++) {
-        // console.log('i', i, 'j', j, 'box[i]', box[i]);
         if (!box[i]) {
           j++;
           return false;
@@ -179,10 +178,6 @@ import constants from './constants.js';
       return false;
     }
 
-    // console.log('checkWinnerRows()', checkWinnerRows());
-    // console.log('checkWinnerColumns()', checkWinnerColumns());
-    // console.log('checkWinnerDiagonals()', checkWinnerDiagonals());
-
     return (checkWinnerRows().winningBoxes.length || checkWinnerColumns().winningBoxes.length || checkWinnerDiagonals().winningBoxes.length);
   }
 
@@ -194,9 +189,7 @@ import constants from './constants.js';
     // Determine which ones not to dim
     switch (winningBoxes.context) {
       case constants.CONTEXT_COLUMN:
-        // console.log('winningBoxes.position', winningBoxes.position, 'getRowNum()', getRowNum());
         for (let c = winningBoxes.position + 1; c <= getRowNum() * getRowNum(); c += getRowNum()) {
-          // console.log('skipping', c)
           skip.push(c);
         }
 
@@ -211,7 +204,7 @@ import constants from './constants.js';
               skip.push(j);
             }
           }
-          
+
         break;
       case constants.CONTEXT_ROW:
       default:
@@ -222,10 +215,7 @@ import constants from './constants.js';
           start = (winningBoxes.position * getRowNum() + 1);
         }
 
-        // console.log('r winningBoxes.position', winningBoxes.position, 'start', start, 'end', start + getRowNum());
-        
         for (let r = start; r < start + getRowNum(); r++) {
-          // console.log('skipping', r)
           skip.push(r);
         }
     }
@@ -233,11 +223,8 @@ import constants from './constants.js';
     console.log('skip', skip);
 
     const filteredBoxes = boxes.filter(box => {
-      // console.log('box.id', box.id)
       return !(skip.includes(parseInt(box.id, 10)));
     });
-
-    // console.log('filteredBoxes', filteredBoxes);
 
     filteredBoxes.forEach(box => {
       dimBox(box);
