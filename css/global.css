@@ -66,3 +66,18 @@ form div {
 .box:hover {
   cursor: pointer;
 }
+
+#new-game {
+  padding: 7px 15px;
+  background: rgb(137, 217, 164);
+  color: #333;
+}
+
+#next-up {
+  text-align: center;
+}
+
+#next-up h4 {
+  font-size: 300%;
+  margin-top: 0;
+}
