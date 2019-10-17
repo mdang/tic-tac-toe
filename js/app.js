@@ -206,7 +206,19 @@ import constants from './constants.js';
         break;
       case constants.CONTEXT_ROW:
       default:
+        let start = 1;
+        let end = start + getRowNum();
 
+        if (winningBoxes.position !== 0) {
+          start = (winningBoxes.position * getRowNum() + 1);
+        }
+
+        // console.log('r winningBoxes.position', winningBoxes.position, 'start', start, 'end', start + getRowNum());
+        
+        for (let r = start; r < start + getRowNum(); r++) {
+          // console.log('skipping', r)
+          skip.push(r);
+        }
     }
 
     console.log('skip', skip);
@@ -216,7 +228,7 @@ import constants from './constants.js';
       return !(skip.includes(parseInt(box.id, 10)));
     });
 
-    console.log('filteredBoxes', filteredBoxes);
+    // console.log('filteredBoxes', filteredBoxes);
 
     filteredBoxes.forEach(box => {
       dimBox(box);
