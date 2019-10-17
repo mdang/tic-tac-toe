@@ -12,6 +12,7 @@ export default  {
   SELECTOR_NEW_GAME: '#new-game',
   SELECTOR_TOTAL_GAMES: '#total-games',
   SELECTOR_RESET_ALL: '#reset-all',
+  SELECTOR_NEXT_UP: '#next-up',
   GAME_TYPE_DEFAULT: 'default',
   GAME_TYPE_RANDOM: 'random',
   GAME_TYPE_N_IN_A_ROW: 'n-in-a-row',

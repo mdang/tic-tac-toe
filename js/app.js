@@ -9,6 +9,7 @@ import constants from './constants.js';
   const board = document.querySelector(constants.SELECTOR_BOARD);
   const nextPlayerName = document.querySelector(constants.SELECTOR_NEXT_NAME);
   const nextPlayerMarker = document.querySelector(constants.SELECTOR_NEXT_MARKER);
+  const nextUp = document.querySelector(constants.SELECTOR_NEXT_UP);
   const newGame = document.querySelector(constants.SELECTOR_NEW_GAME);
   const resetAll = document.querySelector(constants.SELECTOR_RESET_ALL);
   const p1Score = document.querySelector(constants.SELECTOR_PLAYER_1_SCORE);
@@ -292,6 +293,7 @@ import constants from './constants.js';
       updateTotalGames();
 
       removeBoxEventListeners();
+      hideNextUp();
       displayWinner();
     } else if (isDraw()) {
       console.log('we in a draw');
@@ -299,6 +301,7 @@ import constants from './constants.js';
       updateTotalGames();
 
       removeBoxEventListeners();
+      hideNextUp();
       displayDraw();
     }
 
@@ -339,6 +342,14 @@ import constants from './constants.js';
     rowNumContainer.style.display = 'block';
   }
 
+  const hideNextUp = () => {
+    nextUp.style.display = 'none';
+  }
+
+  const showNextUp = () => {
+    nextUp.style.display = 'block';
+  }
+
   const removeBoxEventListeners = () => {
     const children = board.childNodes;
     const boxes = Array.from(children);
@@ -364,6 +375,7 @@ import constants from './constants.js';
 
     swapPlayers(true);
     buildGameBoard(getRowNum());
+    showNextUp();
   }
 
   const handleResetAll = e => {
@@ -380,6 +392,8 @@ import constants from './constants.js';
 
     swapPlayers(true);
     buildGameBoard(constants.DEFAULT_ROW_NUM);
+    updateTotalGames();
+    showNextUp();
   }
 
   const buildGameBoard = numRows => {
