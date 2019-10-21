@@ -398,10 +398,14 @@ import constants from './constants.js';
 
   const buildGameBoard = numRows => {
     reset();
+
+    const fragment = document.createDocumentFragment();
     
     for (let i = 1; i <= (numRows * numRows); i++) {
-      board.append(createBox(i, numRows));
+      fragment.append(createBox(i, numRows));
     }
+
+    board.append(fragment);
   }
 
   const registerEventHandlers = () => {
