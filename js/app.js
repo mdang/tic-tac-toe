@@ -1,20 +1,20 @@
-import { randomColor } from './utilities.js';
+import { qs, randomColor } from './utilities.js';
 import constants from './constants.js';
 
 {
-  const gameTypeSelect = document.querySelector(constants.SELECTOR_GAME_TYPE);
-  const formOptions = document.querySelector(constants.SELECTOR_FORM_OPTIONS);
-  const rowNumContainer = document.querySelector(constants.SELECTOR_ROW_NUM_CONTAINER);
-  const rowNumInput = document.querySelector(constants.SELECTOR_ROW_NUM);
-  const board = document.querySelector(constants.SELECTOR_BOARD);
-  const nextPlayerName = document.querySelector(constants.SELECTOR_NEXT_NAME);
-  const nextPlayerMarker = document.querySelector(constants.SELECTOR_NEXT_MARKER);
-  const nextUp = document.querySelector(constants.SELECTOR_NEXT_UP);
-  const newGame = document.querySelector(constants.SELECTOR_NEW_GAME);
-  const resetAll = document.querySelector(constants.SELECTOR_RESET_ALL);
-  const p1Score = document.querySelector(constants.SELECTOR_PLAYER_1_SCORE);
-  const p2Score = document.querySelector(constants.SELECTOR_PLAYER_2_SCORE);
-  const totalGames = document.querySelector(constants.SELECTOR_TOTAL_GAMES);
+  const gameTypeSelect = qs(constants.SELECTOR_GAME_TYPE);
+  const formOptions = qs(constants.SELECTOR_FORM_OPTIONS);
+  const rowNumContainer = qs(constants.SELECTOR_ROW_NUM_CONTAINER);
+  const rowNumInput = qs(constants.SELECTOR_ROW_NUM);
+  const board = qs(constants.SELECTOR_BOARD);
+  const nextPlayerName = qs(constants.SELECTOR_NEXT_NAME);
+  const nextPlayerMarker = qs(constants.SELECTOR_NEXT_MARKER);
+  const nextUp = qs(constants.SELECTOR_NEXT_UP);
+  const newGame = qs(constants.SELECTOR_NEW_GAME);
+  const resetAll = qs(constants.SELECTOR_RESET_ALL);
+  const p1Score = qs(constants.SELECTOR_PLAYER_1_SCORE);
+  const p2Score = qs(constants.SELECTOR_PLAYER_2_SCORE);
+  const totalGames = qs(constants.SELECTOR_TOTAL_GAMES);
 
   const results = {};
   const players = {
