@@ -53,7 +53,7 @@ import constants from './constants.js';
 
   const swapPlayers = (reset=false) => {
     if (reset) {
-      currentTurn = constants.PLAYER_1;
+      currentTurn = (getGameType() === constants.GAME_TYPE_RANDOM) ? getRandomPlayer() : constants.PLAYER_1;
     } else {
       currentTurn = (getGameType() === constants.GAME_TYPE_RANDOM) ? 
         getRandomPlayer() : 
@@ -150,7 +150,7 @@ import constants from './constants.js';
     let j = 0;
     let position = null;
 
-    const winning = boxes.filter(box => {
+    const matches = boxes.filter(box => {
       let winner = true;
 
       for (let i = 0; i < box.length - 1; i++) {
@@ -170,10 +170,10 @@ import constants from './constants.js';
     })
 
     return winningBoxes = {
-      isWin: !!(winning.length),
+      isWin: !!(matches.length),
       context: context,
       position: position,
-      winningBoxes: winning
+      boxes: matches
     };
   }
 
@@ -293,13 +293,13 @@ import constants from './constants.js';
       console.log('winner winner, chicken dinner!');
       updateGameScore(currentTurn);
       updateTotalGames();
-      removeBoxEventListeners();
+      removeBoxListeners();
       hideNextUp();
       displayWinner();
     } else if (isDraw()) {
       console.log('no where to go from here');
       updateTotalGames();
-      removeBoxEventListeners();
+      removeBoxListeners();
       hideNextUp();
       displayDraw();
     }
@@ -350,7 +350,7 @@ import constants from './constants.js';
     nextUp.style.display = 'block';
   }
 
-  const removeBoxEventListeners = () => {
+  const removeBoxListeners = () => {
     const children = board.childNodes;
     const boxes = Array.from(children);
 
@@ -363,7 +363,7 @@ import constants from './constants.js';
     Object.keys(results).forEach(key => delete results[key]);
     Object.keys(winningBoxes).forEach(key => delete winningBoxes[key]);
     
-    removeBoxEventListeners();
+    removeBoxListeners();
 
     while (board.hasChildNodes()) {
       board.removeChild(board.lastChild);
