@@ -16,41 +16,68 @@ import constants from './constants.js';
   const p2Score = qs(constants.SELECTOR_PLAYER_2_SCORE);
   const totalGames = qs(constants.SELECTOR_TOTAL_GAMES);
 
+  // Used to store all the plays during the current game
   const results = {};
+  // Players available for this game
   const players = {
     [constants.PLAYER_1]: {
-      name: 'Player 1',
-      marker: 'X',
+      // TODO Allow user to enter their name
+      name: 'Player 1', 
+      // TODO Allow user to select their marker 
+      marker: 'X', 
       score: 0
     },
     [constants.PLAYER_2]: {
-      name: 'Player 2',
+      // TODO Allow user to enter their name
+      name: 'Player 2', 
+      // TODO Allow user to select their marker
       marker: 'O',
       score: 0
     }
   };
 
+  // Winning sequence of boxes and the position within the board of that sequence
   let winner = {};
+  // Current player 
   let currentTurn = constants.PLAYER_1;
+  // Total number of games played between these players
   let totalGamesPlayed = 0;
+  // Total number of turns for the current game
   let totalTurns = 0;
 
+  /**
+   * Get the number of columns/rows the board contains
+   * @return {number} 
+   */
   const getRowNum = () => {
     return getGameType() === constants.GAME_TYPE_N_IN_A_ROW ? 
       parseInt(rowNumInput.value, 10) : 
       constants.DEFAULT_ROW_NUM;
   }
 
+  /**
+   * Get the type of game being played
+   * @return {string} 
+   */
   const getGameType = () => {
     return gameTypeSelect.options[gameTypeSelect.selectedIndex].value;
   }
 
+  /**
+   * Return a random player in the game
+   * @return {string}
+   */
   const getRandomPlayer = () => {
     const randomPlayers = Object.keys(players);
 
     return randomPlayers[Math.floor(Math.random() * randomPlayers.length)];
   }
 
+  /**
+   * Swap the players after a turn
+   * @param {boolean} reset Whether a new game is being started
+   * @return {void}
+   */
   const swapPlayers = (reset=false) => {
     if (reset) {
       currentTurn = (getGameType() === constants.GAME_TYPE_RANDOM) ? getRandomPlayer() : constants.PLAYER_1;
@@ -64,6 +91,11 @@ import constants from './constants.js';
     nextPlayerMarker.innerText = players[currentTurn].marker;
   }
 
+  /**
+   * Get the rows on the current board
+   * @param {boolean} completed Only return rows that have been completed
+   * @return {array} 
+   */
   const getRowsPlayed = (completed=false) => {
     const out = [];
     const rowNum = getRowNum();
@@ -86,6 +118,11 @@ import constants from './constants.js';
     return out;
   }
 
+  /**
+   * Get the columns on the current board
+   * @param {boolean} completed Only return columns that have been completed
+   * @return {array} 
+   */
   const getColumnsPlayed = (completed=false) => {
     const out = [];
     const rowNum = getRowNum();
@@ -109,6 +146,11 @@ import constants from './constants.js';
     return out;
   }
 
+  /**
+   * Get the diagonals on the current board
+   * @param {boolean} completed Only return diagonals that have been completed
+   * @return {array} 
+   */
   const getDiagonalsPlayed = (completed=false) => {
     const out = [];
     const diag1 = [];
@@ -134,22 +176,42 @@ import constants from './constants.js';
     return out;
   }
 
+  /**
+   * Check the rows on the board for a win
+   * @return {object} 
+   */
   const checkWinnerRows = () => {
     return isWellPlayed(getRowsPlayed(), constants.CONTEXT_ROW);
   }
 
+  /**
+   * Check the columns on the board for a win
+   * @return {object} 
+   */
   const checkWinnerColumns = () => {
     return isWellPlayed(getColumnsPlayed(), constants.CONTEXT_COLUMN);
   }
 
+  /**
+   * Check the diagonals on the board for a win
+   * @return {object} 
+   */
   const checkWinnerDiagonals = () => {
     return isWellPlayed(getDiagonalsPlayed(), constants.CONTEXT_DIAGONAL);
   }
 
+  /**
+   * Determine if a sequence of boxes match
+   * @param {array} boxes A series of boxes to check if they all match
+   * @param {string} context How the current series of boxes are arranged on the board
+   * @return {object} 
+   */
   const isWellPlayed = (boxes, context) => {
     let j = 0;
-    let position = null;
+    // Where the winning sequence exists on the board
+    let position = null; 
 
+    // Will only be populated if all the boxes within the series match
     const matches = boxes.filter(box => {
       let winner = true;
 
@@ -177,11 +239,19 @@ import constants from './constants.js';
     };
   }
 
+  /**
+   * Did the current turn result in a draw
+   * @return {boolean} 
+   */
   const isDraw = () => {
-    // @TODO: Make this smarter, calculate when there isn't a way for someone to win even with plays left
+    // TODO: Make this smarter, calculate when there isn't a way for someone to win even with plays left
     return Object.keys(results).length === (getRowNum() * getRowNum());
   }
 
+  /**
+   * Did the current turn resulted in a win
+   * @return {boolean} 
+   */
   const isWinner = () => {
     // Can't be a winner if there hasn't been enough turns played
     if (totalTurns < getRowNum()) {
@@ -191,6 +261,10 @@ import constants from './constants.js';
     return (checkWinnerRows().isWin || checkWinnerColumns().isWin || checkWinnerDiagonals().isWin);
   }
 
+  /**
+   * Display the winning sequence of the game
+   * @return {void} 
+   */
   const displayWinner = () => {
     const children = board.childNodes;
     const boxes = Array.from(children);
@@ -239,6 +313,10 @@ import constants from './constants.js';
     });
   }
 
+  /**
+   * Visually display a draw game
+   * @return {void} 
+   */
   const displayDraw = () => {
     const children = board.childNodes;
     const boxes = Array.from(children);
@@ -248,11 +326,19 @@ import constants from './constants.js';
     });
   }
 
+  /**
+   * Dim a box element on the page
+   * @return {void} 
+   */
   const dimBox = box => {
     box.style.background = constants.DISPLAY_LOSING_BOX_BACKGROUND;
     box.style.color = constants.DISPLAY_LOSING_BOX_COLOR;
   }
 
+  /**
+   * Switch to a different game type
+   * @return {void} 
+   */
   const handleGameChange = e => {
     switch (getGameType()) {
       case constants.GAME_TYPE_N_IN_A_ROW:
@@ -268,11 +354,19 @@ import constants from './constants.js';
     }
   }
 
+  /**
+   * Handle a request to change the number of boxes in the game
+   * @return {void} 
+   */
   const handleSubmit = e => {
     e.preventDefault();
     buildGameBoard(getRowNum());
   }
 
+  /**
+   * Handle a request to add a marker to a box on the board
+   * @return {void} 
+   */
   const handleBoxClick = e => {
     const box = e.target;
 
@@ -307,6 +401,11 @@ import constants from './constants.js';
     swapPlayers();
   }
 
+  /**
+   * Update the game score for players
+   * @param {string} The player to update
+   * @return {void} 
+   */
   const updateGameScore = currentTurn => {
     const score = (currentTurn === constants.PLAYER_1) ? p1Score : p2Score;
     
@@ -314,11 +413,23 @@ import constants from './constants.js';
     score.innerText = players[currentTurn].score;
   }
 
+  /**
+   * Update the total games played
+   * @return {void} 
+   */
   const updateTotalGames = () => {
     totalGamesPlayed++;
     totalGames.innerText = totalGamesPlayed;
   }
 
+  /**
+   * Create a box element to place on the board
+   * Depends on the `randomColor` utility function
+   * @param {number} id Id of the box element
+   * @param {number} numRows The number of boxes of each row/column on the board
+   * @param {number} brightness The brightness level of the background color of the box
+   * @return {element} 
+   */
   const createBox = (id, numRows, brightnessLevel=100) => {
     const box = document.createElement('div');
     
@@ -334,22 +445,42 @@ import constants from './constants.js';
     return box;
   }
 
+  /**
+   * Hide the option to set the number of rows/columns
+   * @return {void} 
+   */
   const hideRowNum = () => {
     rowNumContainer.style.display = 'none';
   }
 
+  /**
+   * Show the option to set the number of rows/columns
+   * @return {void} 
+   */
   const showRowNum = () => {
     rowNumContainer.style.display = 'block';
   }
 
+  /**
+   * Hide the next player display
+   * @return {void} 
+   */
   const hideNextUp = () => {
     nextUp.style.display = 'none';
   }
 
+  /**
+   * Show the next player display
+   * @return {void} 
+   */
   const showNextUp = () => {
     nextUp.style.display = 'block';
   }
 
+  /**
+   * Remove the event handlers associated with all the boxes on the board
+   * @return {void} 
+   */
   const removeBoxListeners = () => {
     const children = board.childNodes;
     const boxes = Array.from(children);
@@ -359,6 +490,10 @@ import constants from './constants.js';
     });
   }
 
+  /**
+   * Reset the current game 
+   * @return {void} 
+   */
   const reset = () => {
     Object.keys(results).forEach(key => delete results[key]);
     Object.keys(winner).forEach(key => delete winner[key]);
@@ -370,14 +505,24 @@ import constants from './constants.js';
     }
   }
 
+  /**
+   * Handle a new game request by the user
+   * @return {void} 
+   */
   const handleNewGame = e => {
     e.preventDefault();
+
+    totalTurns = 0;
 
     swapPlayers(true);
     buildGameBoard(getRowNum());
     showNextUp();
   }
 
+  /**
+   * Handle a reset all request by the user
+   * @return {void} 
+   */
   const handleResetAll = e => {
     e.preventDefault();
 
@@ -396,6 +541,11 @@ import constants from './constants.js';
     showNextUp();
   }
 
+  /**
+   * Build the game board based on the number of columns/rows requested
+   * @param {number} numRows The number of rows/columns to build out
+   * @return {void} 
+   */
   const buildGameBoard = numRows => {
     reset();
 
@@ -408,6 +558,10 @@ import constants from './constants.js';
     board.append(fragment);
   }
 
+  /**
+   * Register the event handlers needed to make the game work
+   * @return {void} 
+   */
   const registerEventHandlers = () => {
     gameTypeSelect.addEventListener('change', handleGameChange);
     formOptions.addEventListener('submit', handleSubmit);
@@ -415,6 +569,10 @@ import constants from './constants.js';
     resetAll.addEventListener('click', handleResetAll);
   }
 
+  /**
+   * Run initialization sequence for a page load
+   * @return {void} 
+   */
   const init = () => {
     registerEventHandlers();
     buildGameBoard(constants.DEFAULT_ROW_NUM);
