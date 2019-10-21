@@ -24,5 +24,5 @@ export default  {
   CONTEXT_COLUMN: 'column',
   CONTEXT_DIAGONAL: 'diagonal',
   DISPLAY_LOSING_BOX_BACKGROUND: '#ccc',
-  DIPSLAY_LOSING_BOX_COLOR: '#eee'
+  DISPLAY_LOSING_BOX_COLOR: '#eee'
 };

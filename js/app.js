@@ -66,10 +66,11 @@ import constants from './constants.js';
 
   const getRowsPlayed = (filtered=false) => {
     const out = [];
+    const rowNum = getRowNum();
 
-    for (let i = 1; i <= (getRowNum() * getRowNum()); i += getRowNum()) {
+    for (let i = 1; i <= (rowNum * rowNum); i += rowNum) {
       let row = [];
-      for (let j = i; j < (i + getRowNum()); j++) {
+      for (let j = i; j < (i + rowNum); j++) {
         row.push(results[j] ? results[j] : null);
       }
 
@@ -87,11 +88,12 @@ import constants from './constants.js';
 
   const getColumnsPlayed = (filtered=false) => {
     const out = [];
+    const rowNum = getRowNum();
 
-    for (let i = 1; i <= getRowNum(); i++) {
+    for (let i = 1; i <= rowNum; i++) {
       let col = [];
       
-      for (let j = i; j <= (getRowNum() * getRowNum()); j += getRowNum()) {
+      for (let j = i; j <= (rowNum * rowNum); j += rowNum) {
         col.push(results[j] ? results[j] : null);
       }
 
@@ -111,13 +113,14 @@ import constants from './constants.js';
     const out = [];
     const diag1 = [];
     const diag2 = [];
+    const rowNum = getRowNum();
     
-    for (let i = 1; i <= (getRowNum() * getRowNum() + 1); i += (getRowNum() + 1)) {
+    for (let i = 1; i <= (rowNum * rowNum + 1); i += (rowNum + 1)) {
       diag1.push(results[i] ? results[i] : null);
     }
     out.push(diag1);
     
-    for (let j = (getRowNum() * getRowNum()) - getRowNum() + 1; j >= getRowNum(); j -= (getRowNum() - 1)) {
+    for (let j = (rowNum * rowNum) - rowNum + 1; j >= rowNum; j -= (rowNum - 1)) {
       diag2.push(results[j] ? results[j] : null);
     }
     out.push(diag2);
@@ -190,23 +193,24 @@ import constants from './constants.js';
   const displayWinner = () => {
     const children = board.childNodes;
     const boxes = Array.from(children);
+    const rowNum = getRowNum();
     const skip = [];
 
     // Determine which ones not to dim
     switch (winningBoxes.context) {
       case constants.CONTEXT_COLUMN:
-        for (let c = winningBoxes.position + 1; c <= getRowNum() * getRowNum(); c += getRowNum()) {
+        for (let c = winningBoxes.position + 1; c <= rowNum * rowNum; c += rowNum) {
           skip.push(c);
         }
 
         break;
       case constants.CONTEXT_DIAGONAL:
           if (winningBoxes.position === 0) {
-            for (let i = 1; i <= (getRowNum() * getRowNum() + 1); i += (getRowNum() + 1)) {
+            for (let i = 1; i <= (rowNum * rowNum + 1); i += (rowNum + 1)) {
               skip.push(i);
             }
           } else {
-            for (let j = (getRowNum() * getRowNum()) - getRowNum() + 1; j >= getRowNum(); j -= (getRowNum() - 1)) {
+            for (let j = (rowNum * rowNum) - rowNum + 1; j >= rowNum; j -= (rowNum - 1)) {
               skip.push(j);
             }
           }
@@ -217,10 +221,10 @@ import constants from './constants.js';
         let start = 1;
 
         if (winningBoxes.position !== 0) {
-          start = (winningBoxes.position * getRowNum() + 1);
+          start = (winningBoxes.position * rowNum + 1);
         }
 
-        for (let r = start; r < start + getRowNum(); r++) {
+        for (let r = start; r < start + rowNum; r++) {
           skip.push(r);
         }
     }
@@ -245,7 +249,7 @@ import constants from './constants.js';
 
   const dimBox = box => {
     box.style.background = constants.DISPLAY_LOSING_BOX_BACKGROUND;
-    box.style.color = constants.DIPSLAY_LOSING_BOX_COLOR;
+    box.style.color = constants.DISPLAY_LOSING_BOX_COLOR;
   }
 
   const handleGameChange = e => {
@@ -282,20 +286,18 @@ import constants from './constants.js';
     totalTurns++;
 
     box.innerText = marker;
-    results[box.getAttribute('id')] = marker;
+    results[box.id] = marker;
 
     if (isWinner()) {
       console.log('we have a winner!');
       updateGameScore(currentTurn);
       updateTotalGames();
-
       removeBoxEventListeners();
       hideNextUp();
       displayWinner();
     } else if (isDraw()) {
       console.log('we in a draw');
       updateTotalGames();
-
       removeBoxEventListeners();
       hideNextUp();
       displayDraw();
@@ -357,8 +359,8 @@ import constants from './constants.js';
   }
 
   const reset = () => {
-    Object.keys(results).forEach(key => { delete results[key] });
-    Object.keys(winningBoxes).forEach(key => { delete winningBoxes[key] });
+    Object.keys(results).forEach(key => delete results[key]);
+    Object.keys(winningBoxes).forEach(key => delete winningBoxes[key]);
     
     removeBoxEventListeners();
 
