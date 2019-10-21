@@ -170,6 +170,7 @@ import constants from './constants.js';
     })
 
     return winningBoxes = {
+      isWin: !!(winning.length),
       context: context,
       position: position,
       winningBoxes: winning
@@ -187,7 +188,7 @@ import constants from './constants.js';
       return false;
     }
 
-    return (checkWinnerRows().winningBoxes.length || checkWinnerColumns().winningBoxes.length || checkWinnerDiagonals().winningBoxes.length);
+    return (checkWinnerRows().isWin || checkWinnerColumns().isWin || checkWinnerDiagonals().isWin);
   }
 
   const displayWinner = () => {

@@ -9,42 +9,43 @@
   <link rel="stylesheet" href="./css/global.css">
 </head>
 <body>
-  <div class="wrapper">
-    <aside>
-      <h1>Tic Tac Toe</h1>
-      <form name="form-options" id="form-options">
-        <div>
-          <select name="game-type" id="game-type">
-            <option value="default" selected="selected">Default</option>
-            <option value="random">Random Player</option>
-            <option value="n-in-a-row">n-in-a-row</option>
-          </select>
-        </div>
-        <div id="row-num-container">
-          <input type="text" id="row-num" name="row-num" value="3"> rows 
-          <input type="submit" name="submit" value="Update">
-        </div>
-        <div>
-          <p>Player 1: <span id="p1-score">0</span></p>
-          <p>Player 2: <span id="p2-score">0</span></p>
-          <p>Total games played: <span id="total-games">0</span></p>
-        </div>
-        <div>
-          <button id="new-game">New Game</button> 
-        </div>
-        <div>
-          <a id="reset-all" href="#">Reset all</a>
-        </div>
-        <div id="next-up">
-          <h3>Next Up</h3>
-          <h4><span id="p-name">Player 1</span> <br><span id="p-marker">X</span></h4>
-        </div>
-      </form>
-    </aside>
-    <main class="board"></main>
-  </div>
-  <script type="module" src="./js/constants.js"></script>
-  <script type="module" src="./js/utilities.js"></script>
-  <script type="module" src="./js/app.js"></script>
+<div class="wrapper">
+  <aside>
+    <h1>Tic Tac Toe</h1>
+    <form name="form-options" id="form-options">
+      <section>
+        <select name="game-type" id="game-type">
+          <option value="default" selected="selected">Default</option>
+          <option value="random">Random Player</option>
+          <option value="n-in-a-row">n-in-a-row</option>
+        </select>
+      </section>
+      <section id="row-num-container">
+        <input type="text" id="row-num" name="row-num" value="3"> rows 
+        <input type="submit" name="submit" value="Update">
+      </section>
+      <section>
+        <p>Player 1: <span id="p1-score">0</span></p>
+        <p>Player 2: <span id="p2-score">0</span></p>
+        <p>Games played: <span id="total-games">0</span></p>
+      </section>
+      <section>
+        <button id="new-game">New Game</button> 
+      </section>
+      <section>
+        <a id="reset-all" href="#">Reset all</a>
+      </section>
+      <section id="next-up">
+        <h3>Next Up</h3>
+        <h4 id="p-name">Player 1</h4>
+        <h2 id="p-marker">X</h2>
+      </section>
+    </form>
+  </aside>
+  <main class="board"></main>
+</div>
+<script type="module" src="./js/constants.js"></script>
+<script type="module" src="./js/utilities.js"></script>
+<script type="module" src="./js/app.js"></script>
 </body>
 </html>
