@@ -16,3 +16,7 @@ export const qs = selector => {
   return document.querySelector(selector);
 }
 
+export const qsa = selector => {
+  return document.querySelectorAll(selector);
+}
+
