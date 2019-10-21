@@ -64,7 +64,7 @@ import constants from './constants.js';
     nextPlayerMarker.innerText = players[currentTurn].marker;
   }
 
-  const getRowsPlayed = (filtered=false) => {
+  const getRowsPlayed = (completed=false) => {
     const out = [];
     const rowNum = getRowNum();
 
@@ -77,7 +77,7 @@ import constants from './constants.js';
       out.push(row);
     }
 
-    if (filtered) {
+    if (completed) {
       return out.filter(row => {
         return !row.includes(null);
       })
@@ -86,7 +86,7 @@ import constants from './constants.js';
     return out;
   }
 
-  const getColumnsPlayed = (filtered=false) => {
+  const getColumnsPlayed = (completed=false) => {
     const out = [];
     const rowNum = getRowNum();
 
@@ -100,7 +100,7 @@ import constants from './constants.js';
       out.push(col);
     }
 
-    if (filtered) {
+    if (completed) {
       return out.filter(col => {
         return !col.includes(null);
       })
@@ -109,7 +109,7 @@ import constants from './constants.js';
     return out;
   }
 
-  const getDiagonalsPlayed = (filtered=false) => {
+  const getDiagonalsPlayed = (completed=false) => {
     const out = [];
     const diag1 = [];
     const diag2 = [];
@@ -125,7 +125,7 @@ import constants from './constants.js';
     }
     out.push(diag2);
 
-    if (filtered) {
+    if (completed) {
       return out.filter(diag => {
         return !diag.includes(null);
       })
@@ -182,7 +182,7 @@ import constants from './constants.js';
   }
 
   const isWinner = () => {
-    // Can't be a winner if there hasn't been enough turns 
+    // Can't be a winner if there hasn't been enough turns played
     if (totalTurns < getRowNum()) {
       return false;
     }
@@ -289,14 +289,14 @@ import constants from './constants.js';
     results[box.id] = marker;
 
     if (isWinner()) {
-      console.log('we have a winner!');
+      console.log('winner winner, chicken dinner!');
       updateGameScore(currentTurn);
       updateTotalGames();
       removeBoxEventListeners();
       hideNextUp();
       displayWinner();
     } else if (isDraw()) {
-      console.log('we in a draw');
+      console.log('no where to go from here');
       updateTotalGames();
       removeBoxEventListeners();
       hideNextUp();
