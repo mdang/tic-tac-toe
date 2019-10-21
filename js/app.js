@@ -233,8 +233,8 @@ import constants from './constants.js';
 
     return winner = {
       isWin: !!(matches.length),
-      context: context,
-      position: position,
+      context,
+      position,
       boxes: matches
     };
   }
