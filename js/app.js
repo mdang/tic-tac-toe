@@ -30,7 +30,7 @@ import constants from './constants.js';
     }
   };
 
-  let winningBoxes = {};
+  let winner = {};
   let currentTurn = constants.PLAYER_1;
   let totalGamesPlayed = 0;
   let totalTurns = 0;
@@ -169,7 +169,7 @@ import constants from './constants.js';
       return winner;
     })
 
-    return winningBoxes = {
+    return winner = {
       isWin: !!(matches.length),
       context: context,
       position: position,
@@ -198,15 +198,15 @@ import constants from './constants.js';
     const skip = [];
 
     // Determine which ones not to dim
-    switch (winningBoxes.context) {
+    switch (winner.context) {
       case constants.CONTEXT_COLUMN:
-        for (let c = winningBoxes.position + 1; c <= rowNum * rowNum; c += rowNum) {
+        for (let c = winner.position + 1; c <= rowNum * rowNum; c += rowNum) {
           skip.push(c);
         }
 
         break;
       case constants.CONTEXT_DIAGONAL:
-          if (winningBoxes.position === 0) {
+          if (winner.position === 0) {
             for (let i = 1; i <= (rowNum * rowNum + 1); i += (rowNum + 1)) {
               skip.push(i);
             }
@@ -221,8 +221,8 @@ import constants from './constants.js';
       default:
         let start = 1;
 
-        if (winningBoxes.position !== 0) {
-          start = (winningBoxes.position * rowNum + 1);
+        if (winner.position !== 0) {
+          start = (winner.position * rowNum + 1);
         }
 
         for (let r = start; r < start + rowNum; r++) {
@@ -361,7 +361,7 @@ import constants from './constants.js';
 
   const reset = () => {
     Object.keys(results).forEach(key => delete results[key]);
-    Object.keys(winningBoxes).forEach(key => delete winningBoxes[key]);
+    Object.keys(winner).forEach(key => delete winner[key]);
     
     removeBoxListeners();
 
